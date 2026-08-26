@@ -42,7 +42,7 @@ jobs:
   build-linux-release:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           clean: true
           submodules: recursive
@@ -87,7 +87,7 @@ jobs:
           strings build/crashdetect.so | grep -E "GLIBC_[0-9]" | sort -Vu
 
       - name: Upload Linux artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: crashdetect-linux-glibc228-i386
           path: build/crashdetect.so
