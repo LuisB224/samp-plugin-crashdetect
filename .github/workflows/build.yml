@@ -24,6 +24,11 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
+      - name: Set CrashDetect version
+        shell: pwsh
+        run: |
+          (Get-Content VERSION.txt) -replace '^4\.21$', '4.22' | Set-Content VERSION.txt
+
       - name: Generate build files
         run: |
           mkdir build
@@ -68,6 +73,8 @@ jobs:
                 g++-multilib \
                 make \
                 git
+
+              sed -i 's/^4\.21$/4.22/' VERSION.txt
 
               rm -rf build
 
