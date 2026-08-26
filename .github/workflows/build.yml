@@ -39,7 +39,7 @@ jobs:
           name: crashdetect-win-release
           path: build/Release/crashdetect.dll
 
-    build-linux-release:
+      build-linux-release:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
