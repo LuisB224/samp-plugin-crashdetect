@@ -17,14 +17,14 @@ jobs:
   build-windows-release:
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           clean: true
           submodules: recursive
           fetch-depth: 0
 
       - name: Install CMake
-        uses: lukka/get-cmake@v.3.23.2
+        uses: lukka/get-cmake@v3.23.2
 
       - name: Generate build files
         run: |
@@ -33,13 +33,13 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF .. -G "Visual Studio 16 2019" -A Win32
           cmake --build . --config Release
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
         with:
           name: crashdetect-win-release
           path: build/Release/crashdetect.dll
 
-      build-linux-release:
+  build-linux-release:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -61,6 +61,7 @@ jobs:
               printf "deb [trusted=yes] http://archive.debian.org/debian-security buster/updates main\n" >> /etc/apt/sources.list
 
               apt-get -o Acquire::Check-Valid-Until=false update
+
               apt-get install -y --no-install-recommends \
                 build-essential \
                 cmake \
@@ -70,6 +71,7 @@ jobs:
                 git
 
               rm -rf build
+
               cmake -S . -B build \
                 -DCMAKE_BUILD_TYPE=Release \
                 -DBUILD_TESTING=OFF \
@@ -79,12 +81,12 @@ jobs:
               cmake --build build --config Release --parallel 2
             '
 
-      - name: Verify plugin
+      - name: Verify Linux plugin
         run: |
           file build/crashdetect.so
           strings build/crashdetect.so | grep -E "GLIBC_[0-9]" | sort -Vu
 
-      - name: Upload artifacts
+      - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
           name: crashdetect-linux-glibc228-i386
