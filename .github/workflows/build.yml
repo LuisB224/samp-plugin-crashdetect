@@ -19,6 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
+          ref: v4.22
           clean: true
           submodules: recursive
           fetch-depth: 0
@@ -41,6 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          ref: v4.22
           clean: true
           submodules: recursive
           fetch-depth: 0
